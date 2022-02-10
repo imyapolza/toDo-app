@@ -1,5 +1,6 @@
 import React from 'react';
-//{id: 1644498188781, text: 'dfdf', isCompleted: false}
+import { useTypedSelector } from '../redux/hooks/useTypedSelector';
+
 interface TaskProps {
   task: { id: number; text: string; isCompleted: boolean };
   id: number;
@@ -13,6 +14,7 @@ export const Task: React.FC<TaskProps> = ({
   deleteTask,
   handleTask,
 }: TaskProps): React.ReactElement => {
+  const type = useTypedSelector(({ filter }) => filter);
   return (
     <div className="item-task">
       <div
@@ -20,9 +22,13 @@ export const Task: React.FC<TaskProps> = ({
         onClick={() => handleTask(task.id)}>
         {task.text}
       </div>
-      <div className="delete-btn" onClick={() => deleteTask(id)}>
-        ❌
-      </div>
+      {type === 'completed' || type === 'noCompleted' ? (
+        <></>
+      ) : (
+        <div className="delete-btn" onClick={() => deleteTask(id)}>
+          ❌
+        </div>
+      )}
     </div>
   );
 };
