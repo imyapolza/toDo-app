@@ -9,7 +9,7 @@ import { useActions } from './redux/hooks/useActions';
 function App() {
   const { addTask, completeTask, removeTask, setSort } = useActions();
   const type = useTypedSelector(({ filter }) => filter);
-  const items = useTypedSelector(({ tasks }) => filterTasks(tasks, type));
+  const sortedItems = useTypedSelector(({ tasks }) => filterTasks(tasks, type));
   const count = useTypedSelector(({ tasks }: any) => tasks.length);
 
   function filterTasks(tasks: any, activeFilter: string) {
@@ -38,13 +38,13 @@ function App() {
   };
 
   const deleteTask = (id: number): void => {
-    const newItems = items.filter((obj: any) => obj.id !== id);
+    const newItems = sortedItems.filter((obj: any) => obj.id !== id);
 
     removeTask(newItems);
   };
 
   const handleTask = (id: number): void => {
-    const newItems = items.map((obj: any) =>
+    const newItems = sortedItems.map((obj: any) =>
       obj.id === id ? { ...obj, isCompleted: !obj.isCompleted } : { ...obj },
     );
 
@@ -64,8 +64,8 @@ function App() {
 
       <Sort onClickSortType={onSelectSortType}></Sort>
       <Form takeTask={takeTask}></Form>
-      {items &&
-        items.map((obj: any, index: any) => (
+      {sortedItems &&
+        sortedItems.map((obj: any, index: any) => (
           <Task
             key={`${obj.id}_${index}`}
             task={obj}
