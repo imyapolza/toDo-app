@@ -15,13 +15,18 @@ export const Task: React.FC<TaskProps> = ({
   handleTask,
 }: TaskProps): React.ReactElement => {
   const type = useTypedSelector(({ filter }) => filter);
+  console.log(type);
   return (
     <div className="item-task">
-      <div
-        className={task.isCompleted ? 'task-text completed' : 'task-text'}
-        onClick={() => handleTask(task.id)}>
-        {task.text}
-      </div>
+      {type === 'completed' || type === 'noCompleted' ? (
+        <div className={task.isCompleted ? 'task-text completed' : 'task-text'}>{task.text}</div>
+      ) : (
+        <div
+          className={task.isCompleted ? 'task-text completed' : 'task-text'}
+          onClick={() => handleTask(task.id)}>
+          {task.text}
+        </div>
+      )}
       {type === 'completed' || type === 'noCompleted' ? (
         <></>
       ) : (
@@ -32,3 +37,4 @@ export const Task: React.FC<TaskProps> = ({
     </div>
   );
 };
+
